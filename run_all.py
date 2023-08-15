@@ -19,7 +19,7 @@ PATH_OUT_BASE = r"C:\Users\ICN_admin\Documents\Paper Decoding Toolbox\AcrossCoho
 
 PATH_OUT_BASE = r"/data/gpfs-1/users/merkt_c/work/OUT/pynm_all_feat"
 PATH_IN_BASE = r"/data/gpfs-1/users/merkt_c/work/Data_PyNm"
-DEBUG = True
+DEBUG = False
 
 CHECK_IF_EXISTS = False
 
@@ -96,7 +96,7 @@ def est_features_run(PATH_RUN):
             )
 
             stream.run(
-                data=data[:, :10000],
+                data=data[:, :],
                 out_path_root=PATH_OUT,
                 folder_name=RUN_NAME,
             )
@@ -140,7 +140,7 @@ def est_features_run(PATH_RUN):
             nm_IO.loadmat(
                 os.path.join(
                     PATH_IN_BASE,
-                    r"Washington\motor_basic\transform_mni",
+                    "Washington", "motor_basic", "transform_mni",
                     sub_name + "_electrodes.mat",
                 )
             )["mni_coord"]
@@ -207,7 +207,7 @@ def collect_all_runs():
     )
     run_files_Pittsburgh = [f.path for f in run_files_Pittsburgh]
 
-    PATH_DATA = os.path.join(PATH_IN_BASE, r"Washington\motor_basic\data")
+    PATH_DATA = os.path.join(PATH_IN_BASE, "Washington", "motor_basic", "data")
     run_files_Washington = [
         os.path.join(PATH_DATA, f) for f in os.listdir(PATH_DATA) if "_mot_t_h" in f
     ]
@@ -229,6 +229,7 @@ if __name__ == "__main__":
 
     l_runs = collect_all_runs()
 
+    #est_features_run(l_runs[1])
     Parallel(n_jobs=12)(
         delayed(est_features_run)(sub_cohort)
         for sub_cohort in l_runs[run_idx:run_idx+12]
