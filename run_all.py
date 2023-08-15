@@ -17,6 +17,8 @@ from bids import BIDSLayout
 PATH_IN_BASE = r"C:\Users\ICN_admin\Documents\Datasets"
 PATH_OUT_BASE = r"C:\Users\ICN_admin\Documents\Paper Decoding Toolbox\AcrossCohortMovementDecoding\features_new_all"
 
+PATH_OUT_BASE = r"/data/gpfs-1/users/merkt_c/work/OUT/pynm_all_feat"
+PATH_IN_BASE = r"/data/gpfs-1/users/merkt_c/work/Data_PyNm"
 DEBUG = True
 
 CHECK_IF_EXISTS = False
