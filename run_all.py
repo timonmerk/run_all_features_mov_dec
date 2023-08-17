@@ -21,7 +21,7 @@ PATH_OUT_BASE = r"/data/gpfs-1/users/merkt_c/work/OUT/pynm_all_feat"
 PATH_IN_BASE = r"/data/gpfs-1/users/merkt_c/work/Data_PyNm"
 DEBUG = False
 
-CHECK_IF_EXISTS = False
+CHECK_IF_EXISTS = True
 
 def est_features_run(PATH_RUN):
 
@@ -151,6 +151,7 @@ def est_features_run(PATH_RUN):
             settings=None,
             nm_channels=nm_channels,
             verbose=True,
+            sfreq=1000
         )
 
         stream.set_settings_fast_compute()
