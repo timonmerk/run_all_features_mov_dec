@@ -17,8 +17,8 @@ from bids import BIDSLayout
 PATH_IN_BASE = r"C:\Users\ICN_admin\Documents\Datasets"
 PATH_OUT_BASE = r"C:\Users\ICN_admin\Documents\Paper Decoding Toolbox\AcrossCohortMovementDecoding\features_new_all"
 
-PATH_OUT_BASE = r"/data/gpfs-1/users/merkt_c/work/OUT/pynm_all_feat"
-PATH_IN_BASE = r"/data/gpfs-1/users/merkt_c/work/Data_PyNm"
+#PATH_OUT_BASE = r"/data/gpfs-1/users/merkt_c/work/OUT/pynm_all_feat"
+#PATH_IN_BASE = r"/data/gpfs-1/users/merkt_c/work/Data_PyNm"
 DEBUG = False
 
 CHECK_IF_EXISTS = True
@@ -147,22 +147,22 @@ def est_features_run(PATH_RUN):
             / 1000
         )  # transform into m
 
+        settings = nm.nm_settings.get_default_settings()
+        settings = nm.nm_settings.reset_settings(settings)
+        settings = set_settings(settings)
+
+
         stream = nm_stream_offline.Stream(
-            settings=None,
+            settings=settings,
             nm_channels=nm_channels,
             verbose=True,
-            sfreq=1000
-        )
-
-        stream.set_settings_fast_compute()
-        stream.settings = set_settings(stream.settings)
-
-        stream.init_stream(
             sfreq=sfreq,
-            line_noise=60,
             coord_list=list(electrodes),
             coord_names=ch_names,
+            line_noise=60,
+            path_grids=None,
         )
+
 
         stream.nm_channels.loc[
             stream.nm_channels.query('type == "misc"').index, "target"
@@ -227,10 +227,10 @@ def collect_all_runs():
 if __name__ == "__main__":
 
     run_idx = int(sys.argv[1])
-
     l_runs = collect_all_runs()
 
     #est_features_run(l_runs[1])
+
     Parallel(n_jobs=12)(
         delayed(est_features_run)(sub_cohort)
         for sub_cohort in l_runs[run_idx:run_idx+12]
